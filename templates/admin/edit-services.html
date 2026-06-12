@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Services</title>
+</head>
+<body>
+
+    <h1>Edit Services</h1>
+    <a href="/admin/services">Back to Manage Services</a>
+
+    <form action="/admin/service/edit/{{single_service['id']}}" method="post">
+        <input type="text" name="name" value="{{ single_service['name'] }}" placeholder="Name"><br>
+        <input type="text" name="description" value="{{ single_service['description'] }}" placeholder="Description"><br>
+        <input type="text" name="deliverables" value="{{ single_service['deliverables'] }}" placeholder="Deliverables"><br>
+        <button type="submit">Update Post</button>
+    </form>
+
+</body>
+</html>

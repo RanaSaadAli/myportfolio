@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Manage Hero</title></head>
+<body>
+    <h1>Manage Hero</h1>
+    <a href="/admin/dashboard">Back to Dashboard</a>
+
+    <h2>Current Hero Data</h2>
+    <p>Name: {{ hero['name'] }}</p>
+    <p>Title: {{ hero['title'] }}</p>
+    <p>Intro: {{ hero['intro'] }}</p>
+
+    <h2>Update Hero</h2>
+    <form action="/admin/manage-hero" method="post">
+        <input type="text" name="name" value="{{ hero['name'] }}" placeholder="Name"><br>
+        <input type="text" name="title" value="{{ hero['title'] }}" placeholder="Title"><br>
+        <textarea name="intro" placeholder="Intro">{{ hero['intro'] }}</textarea><br>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

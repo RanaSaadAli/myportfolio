@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head><title>Manage Services</title></head>
+<body>
+    <h1>Manage Services</h1>
+    <a href="/admin/dashboard">Back to Dashboard</a>
+
+    <h2>Add New Service</h2>
+    <form action="/admin/manage-services" method="post">
+        <input type="text" name="name" placeholder="Service Name"><br>
+        <input type="text" name="description" placeholder="Description"><br>
+        <input type="text" name="deliverables" placeholder="Deliverables"><br>
+        <button type="submit">Save Service</button>
+    </form>
+
+    <hr>
+
+    <h2>Existing Services</h2>
+    {% for service in services_data %}
+    <div>
+        <h3>{{ service['name'] }}</h3>
+        <p>{{ service['description'] }}</p>
+        <p>{{ service['deliverables'] }}</p>
+        <a href="/admin/service/edit/{{ service['id'] }}">Edit</a>
+        <a href="/admin/service/delete/{{ service['id'] }}">Delete</a>
+    </div>
+    <hr>
+    {% endfor %}
+</body>
+</html>  

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Blog Post</title>
+</head>
+<body>
+
+    <h1>Edit Blog Post</h1>
+    <a href="/admin/manage-blog">Back to Manage Blog</a>
+
+    <form action="/admin/blog/edit/{{post['id']}}" method="post">
+        <input type="text" name="title" value="{{ post['title'] }}" placeholder="Title"><br>
+        <input type="text" name="summary" value="{{ post['summary'] }}" placeholder="Summary"><br>
+        <textarea name="content" placeholder="Content">{{ post['content'] }}</textarea><br>
+        <input type="text" name="date" value="{{ post['date'] }}" placeholder="Date"><br>
+        <input type="text" name="about" value="{{ post['about'] }}" placeholder="Tag"><br>
+        <button type="submit">Update Post</button>
+    </form>
+
+</body>
+</html>

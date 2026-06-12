@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Project Post</title>
+</head>
+<body>
+
+    <h1>Edit Project Post</h1>
+    <a href="/admin/manage-projects">Back to Manage Projects</a>
+
+    <form action="/admin/project/edit/{{post['id']}}" method="post">
+        <input type="text" name="title" value="{{ post['title'] }}" placeholder="Title"><br>
+        <input type="text" name="problem" value="{{ post['problem'] }}" placeholder="Problem"><br>
+        <textarea name="learnings" placeholder="Write what you learned">{{ post['learnings'] }}</textarea><br>
+        <textarea name="solution" placeholder="Write what you implemented as solution">{{ post['solution'] }}</textarea><br>
+        <input type="text" name="technologies" value="{{ post['technologies'] }}" placeholder="Technology"><br>
+        <input type="text" name="github_link" value="{{ post['github_link'] }}" placeholder="GitHub repo URL"><br>
+        <button type="submit">Update Post</button>
+    </form>
+
+</body>
+</html>

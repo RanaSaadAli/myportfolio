@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Projects</title>
+</head>
+<body>
+
+    <h1>Manage Project Posts</h1>
+    <a href="/dashboard">Back to Dashboard</a>
+
+    <!-- Add New Post Form -->
+    <h2>Add New Post</h2>
+    <form action="/admin/manage-projects" method="post">
+        <input type="text" name="title" placeholder="Title"><br>
+        <input type="text" name="problem" placeholder="Problem"><br>
+        <textarea name="learnings" placeholder="Write what you learned"></textarea><br>
+        <textarea name="solution" placeholder="Write what you implemented as solution"></textarea><br>
+        <input type="text" name="technologies" placeholder="Technology used"><br>
+        <input type="text" name="github_link" placeholder="GitHub repo URL"><br>
+        <button type="submit">Save Post</button>
+    </form>
+
+    <hr>
+
+    <!-- Existing Posts -->
+    <h2>Existing Posts</h2>
+    {% for post in project_data %}
+    <div>
+        <p>{{ post['date'] }}
+        <h3>{{ post['title'] }}</h3>
+        <h4>{{ post['problem']}}</h4>
+        <p>{{ post['learning'] }}</p>
+        <p>{{ post['solution'] }}</p>
+        <p>{{ post['technology'] }}</p>
+        <p>{{ post['github'] }}</p>
+        <a href="/admin/project/edit/{{ post['id'] }}">Edit</a>
+        <a href="/admin/project/delete/{{ post['id'] }}">Delete</a>
+    </div>
+    <hr>
+    {% endfor %}
+
+</body>
+</html>
