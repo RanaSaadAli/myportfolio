@@ -4,16 +4,423 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f7f6;
+      --bg-card: #ffffff;
+      --sidebar-bg: #0f0f0f;
+      --sidebar-text: rgba(255,255,255,0.5);
+      --sidebar-text-active: #ffffff;
+      --sidebar-hover: rgba(255,255,255,0.06);
+      --sidebar-active: rgba(255,255,255,0.1);
+      --border: #e5e5e3;
+      --text-primary: #1a1a18;
+      --text-secondary: #6b6b68;
+      --text-muted: #9b9b97;
+      --accent: #d4500a;
+      --danger-light: #fdf0ef;
+      --danger: #c0392b;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0;
+      width: 220px;
+      height: 100vh;
+    }
+
+    .sidebar-logo {
+      padding: 22px 18px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .sidebar-logo-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    .sidebar-logo-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 2px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 14px 10px;
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.25);
+      padding: 10px 8px 5px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      color: var(--sidebar-text);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .nav-link:hover { background: var(--sidebar-hover); color: rgba(255,255,255,0.85); }
+    .nav-link.active { background: var(--sidebar-active); color: var(--sidebar-text-active); }
+    .nav-link i { font-size: 16px; }
+
+    .sidebar-footer {
+      padding: 12px 10px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 4px;
+    }
+
+    .user-avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: #1a4a8a;
+      color: #b5d0f0;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .user-label { font-size: 12px; color: rgba(255,255,255,0.6); }
+
+    .logout-link {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+
+    .logout-link:hover { background: rgba(200,50,50,0.15); color: #e07070; }
+    .logout-link i { font-size: 16px; }
+
+    .main {
+      margin-left: 220px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      width: calc(100% - 220px);
+    }
+
+    .topbar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      height: 54px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .topbar-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .view-site-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .view-site-btn:hover { background: var(--bg); color: var(--text-primary); }
+
+    .content { padding: 28px 24px; flex: 1; }
+
+    /* ── Hero banner ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes farmerWave {
+      0%   { transform: rotate(0deg); }
+      10%  { transform: rotate(14deg); }
+      20%  { transform: rotate(-8deg); }
+      30%  { transform: rotate(14deg); }
+      40%  { transform: rotate(-4deg); }
+      50%  { transform: rotate(10deg); }
+      60%  { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes tractorRide {
+      0%   { transform: translateX(-80px); opacity: 0; }
+      8%   { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateX(900px); opacity: 0; }
+    }
+
+    .welcome-banner {
+      background: var(--sidebar-bg);
+      border-radius: var(--radius-lg);
+      padding: 48px 32px;
+      margin-bottom: 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% -10%, rgba(212,80,10,0.22) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .tractor {
+      position: absolute;
+      bottom: 14px;
+      left: 0;
+      font-size: 26px;
+      animation: tractorRide 5s linear 1s infinite;
+    }
+
+    .farmer-wrap {
+      font-size: 38px;
+      display: block;
+      margin-bottom: 14px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .wave-hand {
+      display: inline-block;
+      transform-origin: 70% 70%;
+      animation: farmerWave 2s ease 0.9s infinite;
+    }
+
+    .welcome-name {
+      font-size: 30px;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    .welcome-name span { color: var(--accent); }
+
+    .welcome-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 8px;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    /* ── Table ── */
+    .table-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-header-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    th {
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-primary);
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg); }
+    .td-muted { color: var(--text-muted); font-size: 12px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .btn:hover { background: var(--bg); color: var(--text-primary); }
+  </style>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
-  <ul>
-    <li><a href="/admin/blog">Manage Blog</a></li>
-    <li><a href="/admin/projects">Manage Projects</a></li>
-    <li><a href="/admin/services">Manage Services</a></li>
-    <li><a href="/admin/hero">Manage Hero</a></li>
-    <li><a href="/admin/reviews">Manage Reviews</a></li>
-    <a href="/admin/logout"><button>Logout</button></a>
-  </ul>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-name">Rana Saad</div>
+      <div class="sidebar-logo-sub">Portfolio Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Content</div>
+      <a href="/admin/manage-blog" class="nav-link"><i class="ti ti-article"></i> Blog</a>
+      <a href="/admin/manage-projects" class="nav-link"><i class="ti ti-briefcase"></i> Projects</a>
+      <a href="/admin/services" class="nav-link"><i class="ti ti-adjustments"></i> Services</a>
+      <a href="/admin/reviews" class="nav-link"><i class="ti ti-star"></i> Reviews</a>
+      <div class="nav-section-label" style="margin-top:10px;">Profile</div>
+      <a href="/admin/hero" class="nav-link"><i class="ti ti-user"></i> Hero Section</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">RS</div>
+        <div class="user-label">Rana Saad</div>
+      </div>
+      <a href="/admin/logout" class="logout-link"><i class="ti ti-logout"></i> Log out</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <span class="topbar-title">Dashboard</span>
+      <a href="/" target="_blank" class="view-site-btn"><i class="ti ti-external-link" style="font-size:13px"></i> View site</a>
+    </div>
+
+    <div class="content">
+
+      <div class="welcome-banner">
+        <div class="welcome-name">Welcome back, <span>Rana Saad</span></div>
+        <div class="welcome-sub">Manage your portfolio content from here.</div>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-header">
+          <span class="table-header-title">Quick access</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><i class="ti ti-article" style="vertical-align:-2px;margin-right:6px;color:var(--text-muted)"></i>Blog</td>
+              <td class="td-muted">Write and manage blog posts</td>
+              <td><a href="/admin/manage-blog" class="btn">Manage →</a></td>
+            </tr>
+            <tr>
+              <td><i class="ti ti-briefcase" style="vertical-align:-2px;margin-right:6px;color:var(--text-muted)"></i>Projects</td>
+              <td class="td-muted">Add and edit portfolio projects</td>
+              <td><a href="/admin/manage-projects" class="btn">Manage →</a></td>
+            </tr>
+            <tr>
+              <td><i class="ti ti-adjustments" style="vertical-align:-2px;margin-right:6px;color:var(--text-muted)"></i>Services</td>
+              <td class="td-muted">Update services you offer</td>
+              <td><a href="/admin/services" class="btn">Manage →</a></td>
+            </tr>
+            <tr>
+              <td><i class="ti ti-star" style="vertical-align:-2px;margin-right:6px;color:var(--text-muted)"></i>Reviews</td>
+              <td class="td-muted">Manage client testimonials</td>
+              <td><a href="/admin/reviews" class="btn">Manage →</a></td>
+            </tr>
+            <tr>
+              <td><i class="ti ti-user" style="vertical-align:-2px;margin-right:6px;color:var(--text-muted)"></i>Hero Section</td>
+              <td class="td-muted">Edit your name, title and intro</td>
+              <td><a href="/admin/hero" class="btn">Edit →</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 </body>
 </html>
