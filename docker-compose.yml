@@ -1,6 +1,6 @@
 services:
   web:
-    image: portfolio
+    image: saadali96/portfolio:latest
     ports:
       - "8000:8000"
     env_file:
