@@ -181,7 +181,6 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 </section>
 
 <!-- ═══ SERVICES ═══ -->
- {% for services in services_data %}
 
 <section id="services" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
   <div class="max-w-6xl mx-auto px-6">
@@ -190,21 +189,21 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
       <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Services</h2>
     </div>
     <div class="grid md:grid-cols-3 gap-6">
-
-      <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+      {% for service in services_data %}
+      <article class="card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
         <div class="w-12 h-12 flex items-center justify-center bg-orange-50 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
           <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
         </div>
-        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">{{services["name"]}}</h3>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{services["description"]}}.</p>
-        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mt-2">{{ services["deliverables"]}}.</p>
+        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">{{service["name"]}}</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{{service["description"]}}.</p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mt-2">{{ service["deliverables"]}}.</p>
       </article>
-
+      {% endfor %}
     </div>
   </div>
 </section>
 
-{% endfor %}
+
 
 <!-- ═══ WORK ═══ -->
 <section id="work" class="py-24">

@@ -14,9 +14,18 @@ template = Jinja2Templates(directory="templates")
 async def home(request: Request):
     #Fetching data from atlasDB
     hero_data = client.portfolio.hero.find_one({})
-    services = client.portfolio.services.find_one({})
+    services_cursor = client.portfolio.services.find({})
     projects = client.portfolio.projects.find({})
     blogs = client.portfolio.blog.find({})
+
+    services_data = []
+    for service in services_cursor:
+        services_data.append({
+            "name": service["name"],
+            "description": service["description"],
+            "deliverables": service["deliverables"],
+            "id": str(service["_id"])
+        })
 
     # Handles project cursor
     project_data = []
@@ -44,10 +53,10 @@ async def home(request: Request):
     return template.TemplateResponse(request=request, 
                                      name="public/index.html", 
                                      context={
-                                         "hero_data":hero_data, 
-                                              "services":services, 
-                                              "project_data": project_data, 
-                                              "blog_data": blog_data
+                                         "hero_data":hero_data,
+                                         "services_data": services_data,
+                                         "project_data": project_data,
+                                         "blog_data": blog_data
                                               })
 
 
