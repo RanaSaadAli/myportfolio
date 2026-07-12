@@ -64,4 +64,4 @@ Visit `http://localhost:8000`
 ## Author
 
 Rana Saad Ali Khan  
-[GitHub](https://github.com/RanaSaadAli) | [LinkedIn](www.linkedin.com/in/rana-saad-ali-khan) | [Docker Hub](https://hub.docker.com/repository/docker/saadali96/portfolio)
+[GitHub](https://github.com/RanaSaadAli) | [LinkedIn](https://www.linkedin.com/in/rana-saad-ali-khan/) | [Docker Hub](https://hub.docker.com/repository/docker/saadali96/portfolio)
